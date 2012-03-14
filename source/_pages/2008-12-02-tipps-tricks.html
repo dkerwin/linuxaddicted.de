@@ -1,0 +1,129 @@
+--- 
+layout: page
+title: Tipps & Tricks
+tags: 
+- admin
+- hints
+- Linux
+- tipps
+- tricks
+status: publish
+type: page
+published: true
+meta: 
+  _edit_last: "1"
+  _edit_lock: "1261079590"
+  _wp_page_template: default
+---
+<h3>Foundry Edgelron 24G-A Spanning Tree</h3>
+<hr />
+<p />
+
+Intensive Tests haben gezeigt das es keinen Sinn macht auf dem Foundry Switch 24G-A "Spanning Tree per VLAN" zu verwenden. Bei meiner letzten Installation war die Last durch die 15+X VLAN's zu hoch. Es kam immer wieder zu Ausfällen dieser Switches die dann auch immer die anderen 24G-A's in Mitleidenschaft gezogen haben. Es empfiehlt sich dann im Regelfall (wenn das Netz nicht zu groß ist) einen SPT über alle Komponenten zu legen.
+
+<h3>Bondig + STP</h3>
+<hr />
+<p />
+
+In den Defaults der meisten Switches kommt es zu Problemen beim bonding von Interfaces. Das zeigt sich durch eine extrem lange Zeitspanne bis das Interface aktiv wird. Eine mögliche Ursache ist die Spanning-Tree Einstellung auf dem Switch. Es sollte eigentlich jeder Port bei dem bekannt ist, dass keine weiteren aktiven Netzwerkkomponenten angeschlossen sind, als Edge-Port definiert werden.
+Das hat den Vorteil das der Port sofort aktiviert wird und falls sich doch eine aktive Komponente dahinter verbirgt ist dieser dennoch voll nutzbar. Das gilt zumindest für Foundry Komponenten. Ich hatte bisher noch keine Möglichkeit es bei anderen Herstellern zu verifizieren.
+
+
+<h3>Linux - LDAP Timeout Probleme</h3>
+<hr />
+<p />
+
+Bei der Anbindung von Linux Servern gibt es einiges zu beachten:
+
+<dl>
+  <dt><strong>OpenSSH ( > 4.7) + LPK Patch</strong></dt>
+  <dd>
+
+Das Verhalten hat sich mit dieser Version grundlegend geändert. Nach dem Update der OpenSSH hat die LDAP Anmeldung nicht mehr funktioniert. Die Fehlermeldung deutete darauf hin, dass der User nicht in der passenden Gruppe war. Ein lokaler switch auf den User war aber ohne Probleme möglich und zeigte auch die richtige Gruppenzugehörigkeit. Nach intensiver Suche und einiger Zeit im IRC hat sich folgende Lösung ergeben.
+
+In der Konfiguration von sshd (/etc/ssh/sshd_config) müssen folgende Parameter **<color red>entfernt</color>** werden:
+
+<code>LpkSearchTimelimit 3
+LpkBindTimelimit 3
+</code>
+
+  </dd><dt><strong>Bind Policy in /etc/ldap.conf</strong></dt>
+  <dd>Die bind_policy in /etc/ldap.conf sollte auf jeden Fall auf soft gesetzt werden. Anderenfalls kommt es zu endlosen Timeouts. Sollte der Connect fehlschlagen wird bei jeder Anfrage dennoch ein Reconnect gemacht. 
+
+<code>bind_policy soft
+</code>
+
+  </dd><dt><strong>LDAP Timeout bei Routing Problemen</strong></dt>
+  <dd>Sämtliche Einstellung die den Timeout beeinflussen sollen sind hinfällig wenn der LDAP-Server nicht durch eine der Routen erreichbar ist. Dann kommt der volle Timeout zum Tragen.</dd></dl>
+
+<h3>OpenGear Key Sequences</h3>
+<hr />
+<p />
+
+Folgende Key Sequences könnten für die Administration von OpenGear Console Server's hilfreich sein.
+
+<code>~.  : Close Session
+~b  : Send Brake
+~h  : Show History
+</code>
+
+<h3>OpenGear Security</h3>
+<hr />
+<p />
+
+Bis heute ist es nicht ohne Modifikationen möglich Public Key Authentication mit OpenGear Console Servers zu nutzen. Hier der Workaround:
+
+<pre lang="bash">
+#########################################
+##  Modify Root's home directory
+#########################################
+
+# vi /etc/conf/passwd
+--> Change root homedir to /etc/conf/users/root
+
+#########################################
+## Create directory and fix permissions
+#########################################
+
+# mkdir /etc/conf/users/root/.ssh
+# chmod 0700 /etc/conf/users/root/.ssh
+
+#########################################
+## Copy ssh key to console server
+#########################################
+
+# cat [PATH]/id_dsa.pub | ssh root@xyz "cat - > /etc/conf/users/root/.ssh/authorized_keys"
+</pre>
+
+<h3>BigIP Sessions via Console</h3>
+<hr />
+<p />
+
+Die BigIP's von <a href="http://www.f5.com">F5</a> können fast komplett per SSH/Console gemanaged werden. Das Linux System sorgt dafür das man sich sofort heimisch fühlt. Um sich alle aktuellen Verbindungen anzusehen hilft das "Swiss Army Knife" bigpipe:
+
+<code>[root@bigip:Active] admin # bigpipe conn all show
+1.2.3.4:21606 <-> any:any <-> 192.168.1.4:8   icmp
+11.22.33.44:10465 <-> 167.2.3.4:https <-> 192.168.33.2:webcache   tcp
+...
+</code>
+
+<h3>ePower Switches per Console schalten</h3>
+<hr />
+<p />
+
+Die ePower Switches sind im Prinzip schaltbare Steckdosen. Normalerweise werden einzelne Ports über ein Webfrontend geschaltet (siehe dazu: **[[dev:admin_toolbox|Admin Toolbox]]**. Das Ganze funktioniert aber auch über die serielle Schnittstelle. Und zwar so:
+
+<ul>
+  <li>In die höchste Ebene wechseln (/RS und dann **nicht** TAB drücken)</li>
+  <li>Die Syntax ist: Pxy=z (x=Steckdosenleiste, y=Port, z=Status)</li>
+  <li>Stati (0=aus, 1=an, r=reboot, t=toggle)</li>
+  <li>ENTER</li>
+</ul>
+
+<h3>SSH Key Exchange Einzeiler</h3>
+<hr />
+<p />
+
+<code>
+# cat ~/.ssh/id_dsa.pub | ssh USER@TARGET "cat - >> ~/.ssh/authorized_keys"
+</code>

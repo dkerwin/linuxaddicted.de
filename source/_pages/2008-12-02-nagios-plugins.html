@@ -1,0 +1,105 @@
+--- 
+layout: page
+title: Nagios Plugins
+tags: 
+- Linux
+- Nagios
+- Scripts
+status: publish
+type: page
+published: true
+meta: 
+  _wp_page_template: default
+  _edit_lock: "1264628683"
+  _edit_last: "1"
+---
+These are some of the Nagios plugins i wrote which may be useful for you. You may download them via <a href="http://www.nagiosexchange.org">http://www.nagiosexchange.org</a> too. All plugins are released under GPLv2 license.
+
+<a name="check_imap_mailbox"></a>
+<h3>check_imap_mailbox</h3>
+<hr />
+<p />
+
+<strong>Details</strong>
+
+This plugin monitors a given IMAP mailbox for new mail. When a new mail arrived a CRITICAL error will be returned. No new mail(s) will result in OK
+
+<strong>Depencies</strong>
+
+<ul>
+  <li>Mail::IMAPClient <a href="http://search.cpan.org/~djkernen/Mail-IMAPClient-2.2.9/IMAPClient.pod">from CPAN</a></li>
+  <li>Getopt::Long <a href="http://search.cpan.org/~jv/Getopt-Long-2.37/lib/Getopt/Long.pm">from CPAN</a></li>
+</ul>
+
+<strong>Usage</strong>
+
+<pre lang="bash">
+Usage: check_imap_mailbox [PARAMETERS]
+
+Parameters:
+
+  --host=[HOSTNAME]      : Name or IP address of IMAP server
+  --user=[USERNAME]      : Username to connect with
+  --pass=[PASSWORD]      : Password to connect with
+  --folder=[IMAP FOLDER] : The IMAP folder to check
+</pre>
+
+<strong>Download latest version: </strong>[download#2]
+
+<a name="check_jk_status"></a>
+<h3>check_jk_status</h3>
+<hr />
+<p />
+
+<strong>Details</strong>
+
+Check the current status of a given JK loadbalancer. The status is fetched from the management URL (jkstatus). The plugin returns CRITICAL as soon as a cluster node has failed.
+
+<strong>Depencies</strong>
+
+<ul>
+  <li>XML::Simple <a href="http://search.cpan.org/~grantm/XML-Simple-2.18/lib/XML/Simple.pm">from CPAN</a></li>
+  <li>Getopt::Long <a href="http://search.cpan.org/~jv/Getopt-Long-2.37/lib/Getopt/Long.pm">from CPAN</a></li>
+  <li>wget <a href="http://www.gnu.org/software/wget/">from gnu.org</a></li>
+</ul>
+
+<strong>Usage</strong>
+
+<pre lang="bash">
+Usage: check_jk_status [PARAMETERS]
+
+Parameters:
+  --host=[HOSTNAME]        : Name or IP address of JK management interface
+  --balancer=[JK BALANCER] : Name of the JK balancer
+</pre>
+
+<strong>Download latest version: </strong> [download#1]
+
+<a name="check_foundry_ports"></a>
+<h3>check_foundry_ports</h3>
+<hr />
+<p />
+
+<strong>Details</strong>
+
+Compare the port status of Foundry switches against a given list and returns CRITICAL if any of the ports has status different from the defined value. May indicate that a switch/server failed or a new unauthorized connection took place.
+
+<strong>Depencies</strong>
+
+<ul>
+  <li>Getopt::Long <a href="http://search.cpan.org/~jv/Getopt-Long-2.37/lib/Getopt/Long.pm">from CPAN</a></li>
+  <li>snmpget <a href="http://net-snmp.sourceforge.net/">from net-snmp.sourceforge.net</a></li>
+</ul>
+
+<strong>Usage</strong>
+
+<pre lang="bash">
+Usage: check_foundry_ports [PARAMETERS]
+
+Parameters:
+	    --host=[HOSTNAME]            : Hostname or IP-Address of Foundry device
+	    --community=[SNMP COMMUNITY] : SNMP community string
+	    --port=[INTERFACE NR]        : The interface number to check (1,2,3,22,...)
+</pre>
+
+<strong>Download latest version: </strong>[download#3]
