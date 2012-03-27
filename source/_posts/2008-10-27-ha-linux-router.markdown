@@ -1,44 +1,35 @@
---- 
-layout: page
-title: HA Linux Router
-tags: 
-- admin
-- Cluster
-- HA
-- Howots
+---
+layout: post
+title: "HA Linux Router"
+tags:
 - keepalived
-- Linux
-status: publish
-type: page
-published: true
-meta: 
-  _edit_last: "2"
-  _edit_lock: "1265050456"
-  _wp_page_template: default
+- cluster
+- ha
+date: 2008-10-27 10:36
+type: post
+comments: true
 ---
 This howto describes the setup of a HA Linux router based on Gentoo and Keepalived. I'm writing this because there's not really a good documentation on this topic so far. At least as i searched for it.
 
-### Requirement
+### Requirements
 
 The intended router requires this config and tools:
 
-<ul>
-  <li>Kernel with activcated VLAN support(CONFIG_VLAN_8021Q=y)</li>
-  <li>Keepalived installed</li>
-  <li>vconfig installed</li>
-  <li>Optionally bonding support in Kernel and ifenslave installed</li>
-</ul>
+  * Kernel with activcated VLAN support(CONFIG_VLAN_8021Q=y)
+  * Keepalived installed
+  * vconfig installed
+  * Optionally bonding support in Kernel and ifenslave installed
 
-<h3>Network Configuration</h3>
-<hr />
+### Network Configuration
 
 This configuration example is designed for 8 NIC's and 20 VLAN's. The following config is split to make it more readable but belongs completely to /etc/conf.d/net.
 
-<strong>VLAN-Interface-Mapping</strong>
+**VLAN-Interface-Mapping**
 
-<i>Depending on your network and traffic you have to find a VLAN-interface-mapping that matches your environment.</i>
+*Depending on your network and traffic you have to find a VLAN-interface-mapping that matches your environment.*
 
-<pre lang="perl">
+{% codeblock /etc/conf.d/net - part 1 lang:bash %}
+
 #######################################################
 ## VLAN <--> Interface Mapping
 #######################################################
@@ -66,13 +57,13 @@ vlans_eth6="35 36 37 38"
 
 ## eth7: VLAN 39 - 40
 vlans_eth7="39 40"
-</pre>
+{% endcodeblock %}
 
-<strong>VLAN Settings</strong>
+**VLAN Settings**
 
-This  VLAN setup will lead to interfaces named vlanXX. See the manpage of vconfig if you prefer a different setup. Then it's time to disable the "parent interfaces". You can't use a interface in mixed mode: VLAN's [b]or[/b] single interface.
+This  VLAN setup will lead to interfaces named vlanXX. See the manpage of vconfig if you prefer a different setup. Then it's time to disable the "parent interfaces". You can't use a interface in mixed mode: VLAN's **or** single interface.
 
-<pre lang="perl">
+{% codeblock /etc/conf.d/net - part 2 lang:bash %}
 #######################################################
 ## VLAN Interface naming scheme
 #######################################################
@@ -98,19 +89,19 @@ config_eth4=( "null" )
 config_eth5=( "null" )
 config_eth6=( "null" )
 config_eth7=( "null" )
-</pre>
+{% endcodeblock %}
 
-<strong>IP Adresses</strong>
+**IP Adresses**
 
 Now it's time to assign addresses to our VLAN interfaces. I myself prefer the last 3 adresses of every subnet as router addresses.
 
-<pre lang="perl">
-|xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx|
-|            192.168.45.0/25
-|xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx|
-| Router-VIP  ==> 192.168.45.254 Cluster IP
-| Router-A    ==> 192.168.45.253 Real-IP Node A
-| Router-B    ==> 192.168.45.252 Real-IP Node B
+{% codeblock /etc/conf.d/net - part 3 lang:bash %}
+-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-
+-            192.168.45.0/25
+-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-
+- Router-VIP  ==> 192.168.45.254 Cluster IP
+- Router-A    ==> 192.168.45.253 Real-IP Node A
+- Router-B    ==> 192.168.45.252 Real-IP Node B
 
 config_vlan20=( "10.1.20.0/24" )
 config_vlan21=( "10.1.21.0/24" )
@@ -124,23 +115,20 @@ config_vlan28=( "10.1.28.0/24" )
 config_vlan29=( "10.1.29.0/24" )
 config_vlan30=( "10.1.30.0/24" )
 ...
-</pre>
+{% endcodeblock %}
 
-<strong>Routing</strong>
+**Routing**
 
 If you're familiar with Gentoo's routing syntax you shouldn't be surprised to see how it works.
 
-<pre lang="perl">
+{% codeblock /etc/conf.d/net - part 4 lang:bash %}
 routes_vlan21=("192.168.99.0/27 via 10.1.21.5")
 routes_vlan31=("default via 10.1.31.1")
-</pre>
+{% endcodeblock %}
 
-<h3>Keepalived Configuration</h3>
-<hr />
+### Keepalived Configuration ###
 
-<strong>MASTER: /etc/keepalived/keepalived.conf</strong>
-
-<pre lang="perl">
+{% codeblock /etc/keepalived/keepalived.conf - MASTER lang:bash %}
 ## Unique identifier for every router
 global_defs {
    router_id router-a
@@ -198,12 +186,9 @@ vrrp_instance VI_22 {
 }
 
 ...
+{% endcodeblock %}
 
-</pre>
-
-<strong>SLAVE: /etc/keepalived/keepalived.conf</strong>
-
-<pre lang="perl">
+{% codeblock /etc/keepalived/keepalived.conf - SLAVE lang:bash %}
 ## Unique identifier for every router
 global_defs {
    router_id router-b
@@ -262,4 +247,5 @@ vrrp_instance VI_22 {
 
 ...
 
-</pre>
+{% endcodeblock %}
+

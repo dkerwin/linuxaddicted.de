@@ -14,8 +14,6 @@ You need the following components on your puppetmaster server:
   * Phusion Passenger ([http://modrails.com](http://modrails.com/))
   * Rack ([http://rubyforge.org/projects/rack](http://rubyforge.org/projects/rack))
 
-<!--more-->
-
 ## Configure puppetmaster
 
 Your puppet package should contain a config.ru. I found mine in /usr/share/doc/puppet-0.25.4-r1/ext/rack/files/config.ru.bz2 (Gentoo).
@@ -26,6 +24,8 @@ mkdir /etc/puppet/rack/public
 cp [YOUR_CONFIG.RU] /etc/puppet/rack
 chown puppet:root /etc/puppet/rack/config.ru
 {% endcodeblock %}
+
+<!--more-->
 
 The final chown line is important! This way rack determines under which user to run the puppetmaster processes.
 

@@ -2,7 +2,7 @@
 layout: page
 title: "impressum"
 date: 2011-10-21 22:47
-comments: false
+comments: true
 sharing: false
 footer: true
 ---
@@ -14,38 +14,7 @@ Birkenleiten 29
 
 Kontakt: web [At] linuxaddicted [Dot] de
 
-{% codeblock In case of encryption use key http://pgpkeys.mit.edu:11371/pks/lookup?op=vindex&search=0xF3B5141C= Online:pgpkeys.mit.edu %}
------BEGIN PGP PUBLIC KEY BLOCK-----
-Version: GnuPG v1.4.2.2 (GNU/Linux)
- 
-mQGiBEOxRD0RBACWLAn2w+T2zUt517Y3V94/CUTc6GzQxaRuDkhYzr9IuLr1p1kZ
-MFO2cNr9BZjRZWLL82uWSmMgBMk7Mq+p7MiJ4Bh0dQwQHX4j40h9F6t+MIpvn/GK
-ECkXoNIwZ6cYleJPFwPsJHIPU6xD/oMqCpRk/ORxgnVQCSaP+CV6awclrwCg/ZwB
-k7k9wWGFF421lC2hVlo5cFkD/AkB4GRHuHlopazxcHyR2KzPtxxgEVQ6LbDIjG7o
-ZbugqoaGtQM5dj07zgN64pWD771cv3VbMp/5ivP42F7hTMlQZZpySCg1+5TWj2YJ
-pX7N8HAnef05ogX2D9SoXHixOF/FF5CH+xXennrSUwjKmffK+aQNfa9jtb6JOUkZ
-9t48A/4uN6yIBKDT3ZATe/poFI1GWVQ+9Pb12t50vHHiUyV1JbOOBsic7wZG6NNb
-ZdtoCC/sVMWFScc/G2J1DYHbQaeinmXblFeDShu0bp7ZmyevVzJ4EBJHHWCmfRZz
-JOzYwqnch83ZcsiEDFKOyVuGi0mKLz7+xLFHe8QFT581vp3ULbQyRGFuaWVsIEtl
-cndpbiAoSVQgTWFuYWdlcikgPGQua2Vyd2luQGJldHR5LXR2LmNvbT6IYAQTEQIA
-IAIbAwYLCQgHAwIEFQIIAwQWAgMBAh4BAheABQJDxO/lAAoJEKqRGfjztRQcK7UA
-nj1xzwIqj3XkxpfFvOx9BGkw8mScAKD9Xkx4cD+xULWzDN/xGpIKlVCZt7kCDQRD
-sURFEAgA84es6RJ5iDxkncraoQOIwFAcCrWP3XVe5D5lmo9mvLcTcWgomu0hLzef
-xwlUcf7pm1JsLvZB+rUXBQ8qpZCNYZrau37JHzxOK0Xw2iFL6vULhgHc1m8XrtVz
-ttJJjE3+g2QHU1d+ZO8LoLg4ecgsvNF65t0thhATIVtqawimP4hPE5KnRW46tgCK
-rMH71aBBOWKBrXYayh18Ahqj9PjGAOsEk/YTAvWfrB8PNE4913mjR+6ECxnogAi3
-7IAtlmOApRwiKhBtp28VK43VEcypHZw+3I8aU7XRhOs4JCGx4/laO+iZ23W6b6Y9
-eBKpRWN81iGjI1BH7PLSw+8TWZgPYwADBgf/Vh4+eXctZZwWm1UX0MMirb+IKcZq
-xb/xWVbLrbAI0/Y3jF6xmPHN5RzQNTJC87FCAGcgumsRxao0W0L0S/UnKIdUsNr2
-vcBo455jENCBm9ncxkHpwAYTP6DSZCobThtIm3eX0TWnD4pebRahOmVou7gaoxLH
-/hlE/9MEzFQucq98P9OKl8tIea9ZzofVlfdwqo8Ptnw6JWD35T+QdyX7iwfzHqAX
-ZiUgDdmbEhxu+sya+Cr4qMVhLoCDRIDAQqpHyw80Y6scGEYa7dz7XP6oWBqYCmSZ
-HXfAAvlb52VPJl5J5W45utu3e5l5wBTC8E/DF+/3955mYEtptTDZ1N53EYhJBBgR
-AgAJBQJDsURFAhsMAAoJEKqRGfjztRQcWhIAnR0NSthPJZmZLBwijQjnIC7eZKVN
-AJ9iG4o9b0OFqrpR8+nXqvLCTnue6Q==
-=ykBj
------END PGP PUBLIC KEY BLOCK-----
-{% endcodeblock %}
+{% gist 2044719 %}
 
 ### Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV:
 
